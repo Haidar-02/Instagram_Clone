@@ -91,7 +91,7 @@ const RegisterForm = () => {
         <label htmlFor="fullName">Full Name</label>
         <input
           type="text"
-          name="fullName"
+          name="name"
           autoComplete="off"
           placeholder="Full Name"
           id="fullName"
