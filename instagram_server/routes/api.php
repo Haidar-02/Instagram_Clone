@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => "auth:api"], function(){
     Route::group(["prefix" => "user"], function(){
-        Route::get("profile", [AuthController::class, "profile"]);
         Route::post("logout", [AuthController::class, "logout"]);
+        Route::get('details', [AuthController::class, 'getUserDetails']);
         Route::post("refresh", [AuthController::class, "refresh"]);
-        Route::post("posts", [PostController::class, "getPosts"]);
+        Route::get("posts", [PostController::class, "getPosts"]);
         Route::post("create", [PostController::class, "store"]);
-        Route::post('{id}/follow', [PostController::class, 'followUser']);
+        Route::post('follow/{id}', [PostController::class, 'followUser']);
         Route::post('search', [PostController::class, 'searchUser']);
         Route::post('like/{id}', [PostController::class, 'likePost']);
     });

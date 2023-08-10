@@ -16,11 +16,14 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function profile(Request $request){
+    public function getUserDetails(Request $request)
+    {
+        $user = $request->user();
+        
         return response()->json([
             'status' => 'Success',
-            'data' => Auth::user(),
-        ], 200);
+            'data' => $user,
+        ]);
     }
 
     public function login(Request $request){

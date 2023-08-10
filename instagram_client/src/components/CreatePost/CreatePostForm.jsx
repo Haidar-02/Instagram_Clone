@@ -27,24 +27,18 @@ const CreatePostForm = () => {
       newErrors.caption = "Caption is required";
     }
 
-    if (!selectedImage) {
-      newErrors.image = "Image is required";
-    }
-
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      const formData = new FormData();
-      formData.append("caption", caption);
-      formData.append("image", selectedImage);
-
       try {
         const response = await axios.post(
           "http://127.0.0.1:8000/api/user/createpost",
-          formData,
+          {
+            caption: caption,
+            image: selectedImage ? selectedImage.split(",")[1] : null,
+          },
           {
             headers: {
-              "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }

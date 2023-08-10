@@ -26,11 +26,8 @@ const LoginForm = () => {
         formData
       );
       const data = response.data.data;
-      console.log("Login successful:", data);
-      console.log(data.token);
       setAuthToken(data.token);
       localStorage.setItem("token", data.token);
-      console.log("localstrg" + localStorage.getItem("token"));
       navigate(`/home`);
     } catch (error) {
       console.error("Login error:", error);

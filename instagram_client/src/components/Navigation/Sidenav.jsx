@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidenav.css";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,6 +14,32 @@ import axios from "axios";
 
 const Sidenav = () => {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+          const response = await axios.get(
+            "http://127.0.0.1:8000/api/user/details",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(response.data.data);
+          setUserData(response.data.data);
+        }
+      } catch (error) {
+        console.log("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -83,7 +109,7 @@ const Sidenav = () => {
           <span>Create</span>
         </button>
         <div className="sidenav__button">
-          <Avatar></Avatar>
+          <Avatar src={userData.profile_picture}></Avatar>
           <span>
             <button className="logout__button" onClick={handleLogout}>
               Logout
