@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "../styles/LoginForm.css";
-import axios from "axios"; // Import Axios
+import axios from "axios";
+import { setAuthToken } from "../helpers/axiosInstance";
+import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,7 +25,13 @@ const LoginForm = () => {
         "http://127.0.0.1:8000/api/guest/login",
         formData
       );
-      console.log("Login successful:", response.data);
+      const data = response.data.data;
+      console.log("Login successful:", data);
+      console.log(data.token);
+      setAuthToken(data.token);
+      localStorage.setItem("token", data.token);
+      console.log("localstrg" + localStorage.getItem("token"));
+      navigate(`/home`);
     } catch (error) {
       console.error("Login error:", error);
     }
