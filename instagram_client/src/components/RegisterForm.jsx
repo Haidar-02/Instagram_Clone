@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import "../styles/RegisterForm.css";
 import profilePlaceHolder from "../assets/profile.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
-    fullName: "",
+    name: "",
     username: "",
     password: "",
-    profilePicture: null,
+    profile_picture: null,
   });
   const [errors, setErrors] = useState({});
 
@@ -29,20 +32,20 @@ const RegisterForm = () => {
         setSelectedImage(e.target.result);
         setFormData({
           ...formData,
-          profilePicture: e.target.result,
+          profile_picture: e.target.result,
         });
       };
       reader.readAsDataURL(imageFile);
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newErrors = {};
 
     if (formData.username.trim() === "") {
       newErrors.username = "Username is required";
-    } else if (!/^[a-z_.]+$/.test(formData.username)) {
+    } else if (!/^[a-z0-9_.]+$/.test(formData.username)) {
       newErrors.username = "Invalid characters in username";
     }
 
@@ -52,8 +55,8 @@ const RegisterForm = () => {
       newErrors.email = "Invalid email format";
     }
 
-    if (formData.fullName.trim() === "") {
-      newErrors.fullName = "Full Name is required";
+    if (formData.name.trim() === "") {
+      newErrors.name = "Full Name is required";
     }
 
     if (formData.password.length < 7) {
@@ -63,8 +66,29 @@ const RegisterForm = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Perform registration logic here
-      console.log(formData);
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/guest/register",
+          {
+            name: formData.name,
+            email: formData.email,
+            username: formData.username,
+            password: formData.password,
+            profile_picture: formData.profile_picture,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Registration successful:", response.data);
+        navigate(`/`);
+      } catch (error) {
+        console.error("Registration error:", error);
+        console.log(formData);
+      }
     }
   };
 
@@ -83,19 +107,17 @@ const RegisterForm = () => {
           autoComplete="off"
           placeholder="Email Address"
           id="email"
-          value={formData.email}
           onChange={handleInputChange}
         />
         {errors.email && <div className="error-message">{errors.email}</div>}
 
-        <label htmlFor="fullName">Full Name</label>
+        <label htmlFor="name">Full Name</label>
         <input
           type="text"
           name="name"
           autoComplete="off"
           placeholder="Full Name"
-          id="fullName"
-          value={formData.fullName}
+          id="name"
           onChange={handleInputChange}
         />
         {errors.fullName && (
@@ -107,7 +129,7 @@ const RegisterForm = () => {
           type="text"
           name="username"
           autoComplete="off"
-          placeholder="Username (lowercase, _, .)"
+          placeholder="Username (lowercase, numbers, _, .)"
           value={formData.username}
           onChange={handleInputChange}
         />
@@ -121,7 +143,6 @@ const RegisterForm = () => {
           name="password"
           autoComplete="off"
           placeholder="Password"
-          value={formData.password}
           onChange={handleInputChange}
         />
         {errors.password && (
@@ -144,6 +165,7 @@ const RegisterForm = () => {
           type="file"
           name="profile_picture"
           className="file-input"
+          accept="image/*"
           onChange={handleImageChange}
         />
       </div>
