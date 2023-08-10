@@ -22,7 +22,20 @@ class User extends Authenticatable implements JWTSubject
         'profile_picture',
         'password',
     ];
+    public function followers()
+    {
+        return $this->hasMany(Following::class, 'follower_id');
+    }
 
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'following_id');
+    }
+
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -56,5 +69,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    
 
 }
