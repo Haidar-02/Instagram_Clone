@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidenav.css";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,13 +7,14 @@ import SlideshowIcon from "@mui/icons-material/Slideshow";
 import ChatIcon from "@mui/icons-material/Chat";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 
 const Sidenav = () => {
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -47,7 +48,7 @@ const Sidenav = () => {
         alt="Instagram Logo"
       />
 
-      <div className="sidenav__buttons" onClick={() => navigate("/home")}>
+      <div className="sidenav__buttons" onClick={() => navigate("/Home")}>
         <button className="sidenav__button">
           <HomeIcon />
           <span>Home</span>
@@ -72,7 +73,12 @@ const Sidenav = () => {
           <FavoriteBorderIcon />
           <span>Notifications</span>
         </button>
-        <button className="sidenav__button">
+        <button
+          className="sidenav__button"
+          onClick={function () {
+            navigate("/Create");
+          }}
+        >
           <AddCircleOutlineIcon />
           <span>Create</span>
         </button>

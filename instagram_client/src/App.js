@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Homepage from "./pages/HomePage/HomePage";
 import { history } from "./helpers/history";
 import { setAuthToken } from "./helpers/axiosInstance";
+import CreatePostPage from "./pages/CreatePost/CreatePostPage";
 
 const token = localStorage.getItem("token");
 if (token) {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
           <Route path="/Home" element={<Homepage />} />
+          <Route path="/Create" element={<CreatePostPage />} />
         </Routes>
       </div>
     </Router>

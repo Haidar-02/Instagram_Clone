@@ -36,7 +36,7 @@ const Timeline = () => {
 
   return (
     <div className="timeline">
-      <h2>Feed</h2>
+      <h2>FEED</h2>
       {posts.map((post, index) => (
         <Post
           key={index}
