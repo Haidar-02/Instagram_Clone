@@ -1,13 +1,11 @@
 body {
   background-color: rgb(29, 29, 29);
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: fit-content;
 }
 .homepage {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .homepage__navWraper {

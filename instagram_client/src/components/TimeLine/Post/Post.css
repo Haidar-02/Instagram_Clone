@@ -39,8 +39,12 @@
 .postIcon {
   padding: 7px;
   font-size: 30px;
+  transition: 0.3s;
 }
 
 .postIcon :hover {
   cursor: pointer;
+}
+.FavoriteBorderIcon:hover {
+  color: red;
 }

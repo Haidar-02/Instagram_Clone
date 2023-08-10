@@ -2,8 +2,8 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Avatar } from "@mui/material";
 import React from "react";
 import "./Post.css";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import FavoriteBorderIcon from "@mui/icons-material/Favorite";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubble";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
@@ -25,7 +25,7 @@ function Post({ user, postImage, likes, timestamp }) {
       <div className="post__footer">
         <div className="post__footerIcons">
           <div className="post__iconsMain">
-            <FavoriteBorderIcon className="postIcon" />
+            <FavoriteBorderIcon className="postIcon FavoriteBorderIcon" />
             <ChatBubbleOutlineIcon className="postIcon" />
             <TelegramIcon className="postIcon" />
           </div>
