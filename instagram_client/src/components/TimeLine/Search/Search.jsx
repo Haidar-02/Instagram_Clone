@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import "./Search.css";
 import { Avatar } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
+  const navigate = useNavigate();
   const [searchUsername, setSearchUsername] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [error, setError] = useState(null);
@@ -40,17 +42,22 @@ const Search = () => {
 
   const handleFollow = async (userId) => {
     try {
+      const formData = new FormData();
+      formData.append("user_id", userId);
+
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/user/follow/${userId}`,
-        {},
+        `http://127.0.0.1:8000/api/user/follow`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       setIsFollowing(true);
+      window.location.reload();
     } catch (error) {
       console.error("Error following user:", error);
     }

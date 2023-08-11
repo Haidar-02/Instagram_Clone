@@ -83,22 +83,43 @@ class PostController extends Controller
             'data' => $user,
         ]);
     }
-    public function followUser(Request $request, $userId)
+    public function followUser(Request $request)
     {
-        $userToFollow = User::findOrFail($userId);
-        $currentUser = $request->user();
-        $currentUser->followings()->attach($userToFollow->id);
+        try {
+            $userToFollow = DB::table('users')
+                ->select('id')
+                ->where('id', $request->user_id)
+                ->first();
     
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'You are now following user with id ' . $userId,
-        ]);
+            if (!$userToFollow) {
+                return response()->json([
+                    'status' => 'Error',
+                    'message' => 'User not found',
+                ], 404);
+            }
+    
+            $currentUser = Auth::user();
+            DB::table('followings')->insert([
+                'user_id' => $currentUser->id,
+                'following_id' => $userToFollow->id,
+            ]);
+    
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'You are now following user with id ' . $request->user_id,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'An error occurred while following the user',
+            ], 500);
+        }
     }
     
     public function likePost(Request $request)
     {
         $post = Post::findOrFail($request->post_id);
-        $userId = $request->user_id;
+        $userId = Auth::user()->id;
     
         $existingLike = DB::table('likes')
                           ->where('user_id', $userId)
