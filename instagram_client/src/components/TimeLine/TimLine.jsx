@@ -3,13 +3,21 @@ import Post from "./Post/Post";
 import "./TimeLine.css";
 import axios from "axios";
 
-const Timeline = () => {
+const Timeline = (fetchPosts) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    fetchPosts = async () => {
       try {
-        const response = await axios.get("");
+        const token = localStorage.getItem("token");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/user/posts",
+          { headers }
+        );
         setPosts(response.data.data);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -22,13 +30,16 @@ const Timeline = () => {
   return (
     <div className="timeline">
       <h2>FEED</h2>
-      {posts.map((post, index) => (
+      {posts.map((post) => (
         <Post
           key={post.id}
+          post_id={post.id}
           user={post.user}
-          postImage={post.postImage}
-          likes={post.likes}
-          timestamp={post.timestamp}
+          postImage={post.post_image}
+          initialLikes={post.likes_count}
+          is_liked={post.is_liked}
+          timestamp={post.created_at}
+          fetchPosts={fetchPosts}
         />
       ))}
     </div>

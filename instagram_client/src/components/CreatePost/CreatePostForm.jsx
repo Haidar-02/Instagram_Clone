@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./CreatePostForm.css"; // Import your CSS stylesheet
+import "./CreatePostForm.css";
 
 const CreatePostForm = () => {
   const navigate = useNavigate();
@@ -31,23 +31,40 @@ const CreatePostForm = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/user/createpost",
-          {
-            caption: caption,
-            image: selectedImage ? selectedImage.split(",")[1] : null,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        if (!selectedImage) {
+          newErrors.image = "Image is required";
+          setErrors(newErrors);
+          return;
+        }
 
-        console.log("Post created successfully:", response.data);
-        navigate("/home");
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const base64Image = e.target.result;
+
+          try {
+            const response = await axios.post(
+              "http://127.0.0.1:8000/api/user/create",
+              {
+                caption: caption,
+                post_image: base64Image,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+
+            console.log("Post created successfully:", response.data);
+            navigate("/home");
+          } catch (error) {
+            console.error("Post creation error:", error);
+          }
+        };
+
+        reader.readAsDataURL(selectedImage);
       } catch (error) {
-        console.error("Post creation error:", error);
+        console.error("Error reading image:", error);
       }
     }
   };

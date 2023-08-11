@@ -25,6 +25,8 @@
 
 .post__image > img {
   width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
   border-radius: 6px;
   border: 0.6px solid rgba(128, 128, 128, 0.516);
 }

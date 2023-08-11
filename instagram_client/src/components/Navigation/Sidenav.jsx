@@ -15,6 +15,7 @@ import axios from "axios";
 const Sidenav = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [userProfilePicture, setUserProfilePicture] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,7 +31,7 @@ const Sidenav = () => {
               },
             }
           );
-          console.log(response.data.data);
+          setUserProfilePicture(response.data.data.profile_picture);
           setUserData(response.data.data);
         }
       } catch (error) {
@@ -101,7 +102,7 @@ const Sidenav = () => {
         </button>
         <button
           className="sidenav__button"
-          onClick={function () {
+          onClick={() => {
             navigate("/Create");
           }}
         >
@@ -109,7 +110,7 @@ const Sidenav = () => {
           <span>Create</span>
         </button>
         <div className="sidenav__button">
-          <Avatar src={userData.profile_picture}></Avatar>
+          <Avatar src={userProfilePicture}></Avatar>
           <span>
             <button className="logout__button" onClick={handleLogout}>
               Logout
