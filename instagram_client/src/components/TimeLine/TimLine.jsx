@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post/Post";
 import "./TimeLine.css";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Timeline = (fetchPosts) => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -29,7 +32,14 @@ const Timeline = (fetchPosts) => {
 
   return (
     <div className="timeline">
-      <h2>FEED</h2>
+      <div className="header">
+        <h2>FEED</h2>
+        <button className="sidenav__button" onClick={() => navigate("/Create")}>
+          <AddCircleOutlineIcon />
+          <span>Create</span>
+        </button>
+      </div>
+
       {posts.map((post) => (
         <Post
           key={post.id}

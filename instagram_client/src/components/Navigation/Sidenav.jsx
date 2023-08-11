@@ -6,7 +6,6 @@ import ExploreIcon from "@mui/icons-material/Explore";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import ChatIcon from "@mui/icons-material/Chat";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar } from "@mui/material";
@@ -100,10 +99,7 @@ const Sidenav = () => {
           <FavoriteBorderIcon />
           <span>Notifications</span>
         </button>
-        <button className="sidenav__button" onClick={() => navigate("/Create")}>
-          <AddCircleOutlineIcon />
-          <span>Create</span>
-        </button>
+
         <div className="sidenav__button">
           <Avatar src={userProfilePicture}></Avatar>
           <span>

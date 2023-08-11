@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Search.css";
 import { Avatar } from "@mui/material";
 import axios from "axios";
-import defaultAvatar from "../../../assets/profile.png";
 
 const Search = () => {
   const [searchUsername, setSearchUsername] = useState("");
