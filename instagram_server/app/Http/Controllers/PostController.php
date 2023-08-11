@@ -68,16 +68,21 @@ class PostController extends Controller
         }
     }
 
-    public function searchUser(Request $request, $username)
+    public function searchUser(Request $request)
     {
-        $user = User::where('username', $username)->firstOrFail();
-        
+        $user = User::where('username', $request->username)->first();
+    
+        if (!$user) {
+            return response()->json([
+                'status' => 'User not found',
+            ], 404);
+        }
+    
         return response()->json([
             'status' => 'Success',
             'data' => $user,
         ]);
     }
-
     public function followUser(Request $request, $userId)
     {
         $userToFollow = User::findOrFail($userId);

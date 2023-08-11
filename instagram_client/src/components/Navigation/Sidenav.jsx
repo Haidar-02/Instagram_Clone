@@ -100,12 +100,7 @@ const Sidenav = () => {
           <FavoriteBorderIcon />
           <span>Notifications</span>
         </button>
-        <button
-          className="sidenav__button"
-          onClick={() => {
-            navigate("/Create");
-          }}
-        >
+        <button className="sidenav__button" onClick={() => navigate("/Create")}>
           <AddCircleOutlineIcon />
           <span>Create</span>
         </button>
